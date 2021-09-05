@@ -1,4 +1,48 @@
 {
+  "borrows": [
+    {
+      "customerId": 2,
+      "bookId": 4,
+      "untilDate": ""
+    }
+  ],
+  "customers": [
+    {
+      "id": 1,
+      "fisrtname": "Zachary",
+      "lastname": "Peterson",
+      "birthdate": "",
+      "phone": ""
+    },
+    {
+      "id": 2,
+      "fisrtname": "Jarrett",
+      "lastname": "Bates",
+      "birthdate": "",
+      "phone": ""
+    },
+    {
+      "id": 3,
+      "fisrtname": "Jair",
+      "lastname": "Dudley",
+      "birthdate": "",
+      "phone": ""
+    },
+    {
+      "id": 4,
+      "fisrtname": "Lia",
+      "lastname": "Cuevas",
+      "birthdate": "",
+      "phone": ""
+    },
+    {
+      "id": 5,
+      "fisrtname": "Laurel",
+      "lastname": "Chang",
+      "birthdate": "",
+      "phone": ""
+    }
+  ],
   "countries": [
     {
       "id": 1,
