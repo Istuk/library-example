@@ -1,13 +1,29 @@
 import React from 'react';
-import BooksList from 'features/bookSearch/BooksList';
-import { Container, Typography } from '@material-ui/core';
+import BooksList from 'features/books/BooksList';
+import { Container, makeStyles, Typography } from '@material-ui/core';
+import AddBook from 'features/books/AddBook';
+
+const useStyles = makeStyles({
+  actionsRoot: {
+    display: 'flex'
+  },
+  actionsSpacer: {
+    flexGrow: 1
+  }
+})
 
 export default function BooksView() {
+  const classes = useStyles();
+
   return (
     <Container>
-      <Typography variant="h2">
-        Books
-      </Typography>
+      <div className={classes.actionsRoot}>
+        <Typography variant="h4">
+          Books
+        </Typography>
+        <div className={classes.actionsSpacer} />
+        <AddBook />
+      </div>
       <BooksList />
     </Container>
   )

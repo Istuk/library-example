@@ -1,17 +1,20 @@
+import { HowToReg } from "@material-ui/icons";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AppThunk, RootState } from "app/store";
+import { AppThunk, RootState, store } from "app/store";
 
 export interface BooksIndexStore {
   customers: Customer[]
   loading: boolean
   loaded: boolean
   error?: string
+  creating: boolean
 }
 
 const initialState: BooksIndexStore = {
   customers: [],
   loaded: false,
-  loading: false
+  loading: false,
+  creating: false
 }
 
 export const customersIndexSlice = createSlice({
@@ -32,6 +35,17 @@ export const customersIndexSlice = createSlice({
       store.loading = false
 
       store.error = action.payload
+    },
+
+    createCustomerStart(store) {
+      store.creating = true;
+    },
+    createCustomerSuccess(store) {
+      store.creating = false;
+    },
+    createCustomerFail(store, action: PayloadAction<string>) {
+      store.creating = false;
+      store.error = action.payload;
     }
   }
 });
@@ -39,7 +53,10 @@ export const customersIndexSlice = createSlice({
 export const {
   loadCustomersStart,
   loadCustomersSuccess,
-  loadCustomersFail
+  loadCustomersFail,
+  createCustomerStart,
+  createCustomerSuccess,
+  createCustomerFail
 } = customersIndexSlice.actions;
 
 export const loadCustomers = (): AppThunk => (dispatch) => {
@@ -50,6 +67,19 @@ export const loadCustomers = (): AppThunk => (dispatch) => {
     .then((body) => {
       dispatch(loadCustomersSuccess(body))
     });
+}
+
+export const createCustomer = (newCustomer: Customer): AppThunk => (dispatch) => {
+  dispatch(createCustomerStart())
+
+  fetch('http://localhost:4300/customers', {
+    method: 'POST',
+    body: JSON.stringify(newCustomer)
+  })
+    .then(() => {
+      dispatch(createCustomerSuccess());
+      dispatch(loadCustomers());
+    })
 }
 
 export const selectCustomersIndex = (state: RootState) => state.customersIndex;

@@ -1,6 +1,6 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import booksIndexReducer from 'features/bookSearch/booksIndexSlice';
-import customersIndexReducer from 'features/customerSearch/customersIndexSlice';
+import booksIndexReducer from 'features/books/booksIndexSlice';
+import customersIndexReducer from 'features/customers/customersIndexSlice';
 
 export const store = configureStore({
   reducer: {

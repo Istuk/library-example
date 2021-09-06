@@ -2,12 +2,12 @@ interface Customer {
     id?: number
     firstname: string
     lastname: string
-    birthdate: Date
+    birthdate: string
     phone: string
 }
 
 interface Borrow {
     customerId: number
     bookId: number
-    untilDate: Date
+    untilDate: string
 }
