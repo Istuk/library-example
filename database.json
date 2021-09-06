@@ -1,9 +1,15 @@
 {
   "borrows": [
     {
-      "customerId": 2,
+      "bookId": 3,
+      "untilDate": "2021-09-20",
+      "id": 4
+    },
+    {
       "bookId": 4,
-      "untilDate": ""
+      "customerId": 3,
+      "untilDate": "2021-09-20",
+      "id": 5
     }
   ],
   "customers": [
@@ -41,12 +47,6 @@
       "lastname": "Chang",
       "birthdate": "",
       "phone": ""
-    },
-    {
-      "id": 6
-    },
-    {
-      "id": 7
     }
   ],
   "countries": [

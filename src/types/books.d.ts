@@ -12,3 +12,7 @@ interface Book {
     year: number
     quantity: number
 }
+
+interface BookDetails extends Book {
+    borrows: Borrow[]
+}

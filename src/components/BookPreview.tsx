@@ -5,8 +5,10 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
   root: {
-    width: '320px',
-    margin: '16px'
+    width: '240px',
+    height: '320px',
+    margin: '16px',
+    backgroundColor: '#e4e4e4'
   }
 })
 

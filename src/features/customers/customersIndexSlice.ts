@@ -69,19 +69,6 @@ export const loadCustomers = (): AppThunk => (dispatch) => {
     });
 }
 
-export const createCustomer = (newCustomer: Customer): AppThunk => (dispatch) => {
-  dispatch(createCustomerStart())
-
-  fetch('http://localhost:4300/customers', {
-    method: 'POST',
-    body: JSON.stringify(newCustomer)
-  })
-    .then(() => {
-      dispatch(createCustomerSuccess());
-      dispatch(loadCustomers());
-    })
-}
-
 export const selectCustomersIndex = (state: RootState) => state.customersIndex;
 
 export default customersIndexSlice.reducer;

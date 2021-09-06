@@ -37,8 +37,11 @@ export const booksIndexSlice = createSlice({
       store.loading = false;
       store.loaded = true;
     },
-    loadBooksFail(store, action) {
+    loadBooksFail(store, action: PayloadAction<string>) {
+      store.error = action.payload;
 
+      store.loading = false;
+      store.loading = false;
     }
   }
 });
