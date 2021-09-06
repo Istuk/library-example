@@ -1,6 +1,15 @@
+import { makeStyles } from '@material-ui/core';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
+import CustomerPreview from 'components/CustomerPreview';
 import React, { useEffect } from 'react';
 import { loadCustomers, selectCustomersIndex } from './customersIndexSlice';
+
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap'
+  }
+})
 
 export default function BooksList() {
   const {
@@ -9,6 +18,8 @@ export default function BooksList() {
   } = useAppSelector(selectCustomersIndex);
   const dispatch = useAppDispatch();
 
+  const classes = useStyles();
+
   useEffect(() => {
     dispatch(loadCustomers())
   }, [dispatch])
@@ -16,15 +27,11 @@ export default function BooksList() {
   if (loading) return <span>Loading...</span>
 
   const bookList = customers.map((customer) => (
-    <div>
-      <h3>First Name: {customer.firstname}</h3>
-      <p>Last Name: {customer.lastname}</p>
-      <p>Phone: {customer.phone}</p>
-    </div>
+    <CustomerPreview customer={customer} />
   ));
 
   return (
-    <div>
+    <div className={classes.root}>
       {bookList}
     </div>
   )

@@ -1,11 +1,14 @@
 import React from 'react';
 import CustomersList from 'features/customerSearch/CustomersList';
+import { Container, Typography } from '@material-ui/core';
 
 export default function CustomersView() {
   return (
-    <div>
-      <h2>Customers</h2>
+    <Container>
+      <Typography variant="h2">
+        Customers
+      </Typography>
       <CustomersList />
-    </div>
+    </Container>
   )
 }
