@@ -4,7 +4,7 @@ interface Country {
 }
 
 interface Book {
-    id: number
+    id?: number
     author: string
     countryId:  number
     pages: number

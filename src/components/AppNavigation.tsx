@@ -1,7 +1,8 @@
-import * as React from 'react';
+import React, {useCallback} from 'react';
 import { AppBar, Button, InputBase, Toolbar, Typography } from '@material-ui/core';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +57,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AppNavigation() {
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleBooksClick = useCallback(() => history.push('/books'), [history])
+  const handleCustomersClick = useCallback(() => history.push('/customers'), [history])
 
   return (
     <AppBar className={classes.root}>
@@ -63,7 +68,6 @@ export default function AppNavigation() {
         <Typography variant="h6">
           Library Admin
         </Typography>
-        <div className={classes.grow} />
         <div className={classes.search}>
           <div className={classes.searchIcon}>
             <SearchIcon />
@@ -78,8 +82,8 @@ export default function AppNavigation() {
           />
         </div>
         <div className={classes.grow} />
-        <Button color="inherit">Books</Button>
-        <Button color="inherit">Customers</Button>
+        <Button color="inherit" onClick={handleBooksClick}>Books</Button>
+        <Button color="inherit" onClick={handleCustomersClick}>Customers</Button>
       </Toolbar>
     </AppBar>
   )

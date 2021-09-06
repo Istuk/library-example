@@ -9,35 +9,35 @@
   "customers": [
     {
       "id": 1,
-      "fisrtname": "Zachary",
+      "firstname": "Zachary",
       "lastname": "Peterson",
       "birthdate": "",
       "phone": ""
     },
     {
       "id": 2,
-      "fisrtname": "Jarrett",
+      "firstname": "Jarrett",
       "lastname": "Bates",
       "birthdate": "",
       "phone": ""
     },
     {
       "id": 3,
-      "fisrtname": "Jair",
+      "firstname": "Jair",
       "lastname": "Dudley",
       "birthdate": "",
       "phone": ""
     },
     {
       "id": 4,
-      "fisrtname": "Lia",
+      "firstname": "Lia",
       "lastname": "Cuevas",
       "birthdate": "",
       "phone": ""
     },
     {
       "id": 5,
-      "fisrtname": "Laurel",
+      "firstname": "Laurel",
       "lastname": "Chang",
       "birthdate": "",
       "phone": ""
