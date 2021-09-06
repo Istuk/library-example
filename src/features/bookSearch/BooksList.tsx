@@ -1,6 +1,16 @@
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import React, { useEffect } from 'react';
 import { loadBooks, selectBooksIndex } from './booksIndexSlice';
+import BookPreview from 'components/BookPreview';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
+  }
+})
 
 export default function BooksList() {
   const {
@@ -9,6 +19,8 @@ export default function BooksList() {
   } = useAppSelector(selectBooksIndex);
   const dispatch = useAppDispatch();
 
+  const classes = useStyles();
+
   useEffect(() => {
     dispatch(loadBooks())
   }, [dispatch])
@@ -16,15 +28,11 @@ export default function BooksList() {
   if (loading) return <span>Loading...</span>
 
   const bookList = books.map((book) => (
-    <div>
-      <h3>Name: {book.title}</h3>
-      <p>Author: {book.author}</p>
-      <p>Year: {book.year}</p>
-    </div>
+    <BookPreview book={book} />
   ));
 
   return (
-    <div>
+    <div className={classes.root}>
       {bookList}
     </div>
   )
