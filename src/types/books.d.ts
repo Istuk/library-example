@@ -7,6 +7,7 @@ interface Book {
     id?: number
     author: string
     countryId:  number
+    language: string
     pages: number
     title: string
     year: number

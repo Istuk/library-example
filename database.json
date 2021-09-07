@@ -29,20 +29,20 @@
       "id": 1,
       "firstname": "Zachary",
       "lastname": "Peterson",
-      "birthdate": "",
-      "phone": ""
+      "birthdate": "1985-07-21",
+      "phone": "0913134567"
     },
     {
       "id": 2,
       "firstname": "Jarrett",
       "lastname": "Bates",
-      "birthdate": "",
-      "phone": ""
+      "birthdate": "1979-06-20",
+      "phone": "0982226666"
     },
     {
       "firstname": "Jair",
       "lastname": "Dudley",
-      "birthdate": "2021-09-06",
+      "birthdate": "1992-09-06",
       "phone": "0991231234",
       "id": 3
     },
@@ -50,23 +50,15 @@
       "id": 4,
       "firstname": "Lia",
       "lastname": "Cuevas",
-      "birthdate": "",
-      "phone": ""
+      "birthdate": "1994-10-23",
+      "phone": "0993332222"
     },
     {
       "firstname": "Laurel",
       "lastname": "Chang",
       "birthdate": "2021-08-18",
-      "phone": "123123123",
+      "phone": "0991112222",
       "id": 5
-    },
-    {
-      "firstname": "Josko",
-      "lastname": "Bosko",
-      "birthdate": "2021-09-09",
-      "phone": "123123123",
-      "id": 6,
-      "borrows": []
     }
   ],
   "countries": [
@@ -296,7 +288,7 @@
     },
     {
       "title": "Test Book",
-      "author": "Test Author",
+      "author": "Ready to ship",
       "countryId": 8,
       "language": "Spanish",
       "pages": "312",

@@ -62,7 +62,7 @@ export default function EditCustomer(props: {customer: Customer}) {
     <Fragment>
       <Button onClick={handleOpenModal}>Edit</Button>
       <AppModal
-        title="Create Customer"
+        title={`Edit Customer - ${props.customer.firstname} ${props.customer.lastname}`}
         open={isOpen}
         onClose={handleCloseModal}
       >

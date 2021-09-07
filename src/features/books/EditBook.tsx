@@ -1,20 +1,10 @@
-import { Button, makeStyles, MenuItem, Select, TextField } from '@material-ui/core';
-import { useAppSelector } from 'app/hooks';
-import AppModal from 'components/AppModal';
-import { loadCountries, selectCountries } from 'features/countries/countriesSlice';
+import { Button, MenuItem, Select, TextField } from '@material-ui/core';
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-
-const initialFormValues = {
-  title: '',
-  author: '',
-  countryId: -1,
-  language: '',
-  pages: 0,
-  year: 2020,
-  quantity: 0
-}
+import { makeStyles } from '@material-ui/core/styles';
+import AppModal from 'components/AppModal';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { loadBookDetails } from 'features/bookDetails/bookDetailsSlice';
+import { loadCountries, selectCountries } from 'features/countries/countriesSlice';
 
 const useStyles = makeStyles(() => ({
   fieldGroup: {
@@ -25,10 +15,18 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-async function createBook(newBook: Book): Promise<Book> {
-  const response = await fetch('http://localhost:4300/books', {
-    method: 'POST',
-    body: JSON.stringify(newBook),
+async function editBook(book: Book): Promise<Book> {
+  const response = await fetch(`http://localhost:4300/books/${book.id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      title: book.title,
+      author: book.author,
+      countryId: book.countryId,
+      language: book.language,
+      pages: book.pages,
+      year: book.year,
+      quantity: book.quantity
+    }),
     headers:  { 
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -38,20 +36,20 @@ async function createBook(newBook: Book): Promise<Book> {
   return response.json();
 }
 
-export default function AddBook() {
+export default function EditBook(props: {book: Book}) {
   const [isOpen, setIsOpen] = useState(false);
-  const [form, setForm] = useState(initialFormValues);
-  const history = useHistory();
+  const [form, setForm] = useState(props.book);
+  const dispatch = useAppDispatch();
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   const {
-    countries
+    countries,
+    loaded: countriesLoaded
   } = useAppSelector(selectCountries);
 
   useEffect(() => {
-    dispatch(loadCountries());
-  }, [dispatch]);
+    if (!countriesLoaded) dispatch(loadCountries());
+  }, [dispatch, countriesLoaded]);
 
   const handleOpenModal = useCallback(() => {
     setIsOpen(true);
@@ -62,9 +60,9 @@ export default function AddBook() {
   }, [setIsOpen]);
 
   const handleSubmit = (event: any) => {
-    createBook(form)
-      .then((book) => {
-        history.push(`/book/${book.id}`)
+    editBook(form)
+      .then(() => {
+        dispatch(loadBookDetails(props.book.id as number));
       })
 
     event.preventDefault();
@@ -76,24 +74,24 @@ export default function AddBook() {
 
   return (
     <Fragment>
-      <Button onClick={handleOpenModal}>Add Book</Button>
+      <Button onClick={handleOpenModal}>Edit</Button>
       <AppModal
-        title="Create Book"
+        title={`Edit Book - ${props.book.title}`}
         open={isOpen}
         onClose={handleCloseModal}
       >
         <form noValidate autoComplete="off" onSubmit={handleSubmit}>
           <div className={classes.fieldGroup}>
-            <TextField label="Title" onChange={handleChange('title')} />
+            <TextField label="Title" value={form.title} onChange={handleChange('title')} />
           </div>
           <div className={classes.fieldGroup}>
-            <TextField label="Author" onChange={handleChange('author')} />
+            <TextField label="Author" value={form.author} onChange={handleChange('author')} />
           </div>
           <div className={classes.fieldGroup}>
             <Select
               labelId="select-customer-label"
               value={form.countryId}
-              onChange={handleChange('countryId')}
+              onSelect={handleChange('countryId')}
               className={classes.inputField}
             >
               <MenuItem value={-1}>-</MenuItem>
@@ -103,18 +101,18 @@ export default function AddBook() {
             </Select>
           </div>
           <div className={classes.fieldGroup}>
-            <TextField label="Language" onChange={handleChange('language')} />
+            <TextField label="Language" value={form.language} onChange={handleChange('language')} />
           </div>
           <div className={classes.fieldGroup}>
-            <TextField type="number" label="Pages" onChange={handleChange('pages')} />
+            <TextField type="number" label="Pages" value={form.pages} onChange={handleChange('pages')} />
           </div>
           <div className={classes.fieldGroup}>
-            <TextField type="number" label="Year" onChange={handleChange('year')} />
+            <TextField type="number" label="Year" value={form.year} onChange={handleChange('year')} />
           </div>
           <div className={classes.fieldGroup}>
-            <TextField type="number" label="Quantity" onChange={handleChange('quantity')} />
+            <TextField type="number" label="Quantity" value={form.quantity} onChange={handleChange('quantity')} />
           </div>
-          <Button type="submit">Create</Button>
+          <Button type="submit">Save</Button>
         </form>
       </AppModal>
     </Fragment>

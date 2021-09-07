@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/styles';
 import { loadCountries, selectCountries } from 'features/countries/countriesSlice';
 import { serializeBorrowsForBook } from 'helpers/serializers';
 import { BorrowBook } from '../../components/BorrowBook';
+import EditBook from 'features/books/EditBook';
 
 const useStyles = makeStyles({
   root: {
@@ -107,7 +108,7 @@ export default function BookDetails({id}: {id: number}) {
             Actions
           </Typography>
           <BorrowBook book={details} customers={customers} />
-          <Button>Edit</Button>
+          <EditBook book={details} />
         </Card>
       </div>
       <Typography variant="h4">

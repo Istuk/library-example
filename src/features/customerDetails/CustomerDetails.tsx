@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { loadCustomerDetails, selectCustomerDetails } from './customerDetailsSlice';
@@ -37,13 +37,14 @@ export default function BookDetails({id}: {id: number}) {
     loading: booksLoading
   } = useAppSelector(selectBooksIndex);
   const dispatch = useAppDispatch();
+  const [bookId] = useState(id);
 
   const classes = useStyles();
 
   useEffect(() => {
-    dispatch(loadCustomerDetails(id));
+    dispatch(loadCustomerDetails(bookId));
     dispatch(loadBooks());
-  }, [dispatch, id]);
+  }, [dispatch, bookId]);
 
   if (loading || booksLoading || !details) return <span>Loading...</span>
 
