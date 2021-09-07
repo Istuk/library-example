@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Card, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { loadBookDetails, selectBookDetails } from './bookDetailsSlice';
@@ -8,6 +8,9 @@ import { loadCountries, selectCountries } from 'features/countries/countriesSlic
 import { serializeBorrowsForBook } from 'helpers/serializers';
 import { BorrowBook } from '../../components/BorrowBook';
 import EditBook from 'features/books/EditBook';
+import BooksService from 'services/BooksService';
+import { useHistory } from 'react-router';
+import DeleteButton from 'components/DeleteButton';
 
 const useStyles = makeStyles({
   root: {
@@ -50,14 +53,21 @@ export default function BookDetails({id}: {id: number}) {
     loading: countriesLoading
   } = useAppSelector(selectCountries);
   const dispatch = useAppDispatch();
+  const history = useHistory();
 
   const classes = useStyles();
+
+  const [service] = useState(new BooksService());
 
   useEffect(() => {
     dispatch(loadBookDetails(id));
     dispatch(loadCustomers());
     if (!countriesLoaded) dispatch(loadCountries());
   }, [dispatch, id, countriesLoaded]);
+
+  const handleDeleteSuccess = useCallback(() => {
+    history.push('/books');
+  }, [history]);
 
   if (loading || customersLoading || countriesLoading || !details || !countries) return <span>Loading...</span>
 
@@ -69,6 +79,8 @@ export default function BookDetails({id}: {id: number}) {
   }
 
   const availableCopies = details.quantity - details.borrows.length;
+
+  if (!details.id) return <Card className={classes.root}></Card>
   
   return (
     <Card className={classes.root}>
@@ -109,6 +121,11 @@ export default function BookDetails({id}: {id: number}) {
           </Typography>
           <BorrowBook book={details} customers={customers} />
           <EditBook book={details} />
+          <DeleteButton
+            service={service}
+            id={details.id}
+            onSuccess={handleDeleteSuccess}
+          />
         </Card>
       </div>
       <Typography variant="h4">

@@ -5,6 +5,7 @@ import AppModal from 'components/AppModal';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { loadBookDetails } from 'features/bookDetails/bookDetailsSlice';
 import { loadCountries, selectCountries } from 'features/countries/countriesSlice';
+import BooksService from 'services/BooksService';
 
 const useStyles = makeStyles(() => ({
   fieldGroup: {
@@ -16,24 +17,19 @@ const useStyles = makeStyles(() => ({
 }));
 
 async function editBook(book: Book): Promise<Book> {
-  const response = await fetch(`http://localhost:4300/books/${book.id}`, {
-    method: 'PUT',
-    body: JSON.stringify({
-      title: book.title,
-      author: book.author,
-      countryId: book.countryId,
-      language: book.language,
-      pages: book.pages,
-      year: book.year,
-      quantity: book.quantity
-    }),
-    headers:  { 
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    }
-  });
+  const service = new BooksService();
 
-  return response.json();
+  if (!book.id) throw new Error('book must contain id to update');
+
+  return await service.updateBook(book.id, {
+    title: book.title,
+    author: book.author,
+    countryId: book.countryId,
+    language: book.language,
+    pages: book.pages,
+    year: book.year,
+    quantity: book.quantity
+  });
 }
 
 export default function EditBook(props: {book: Book}) {
@@ -91,12 +87,12 @@ export default function EditBook(props: {book: Book}) {
             <Select
               labelId="select-customer-label"
               value={form.countryId}
-              onSelect={handleChange('countryId')}
+              onChange={handleChange('countryId')}
               className={classes.inputField}
             >
               <MenuItem value={-1}>-</MenuItem>
               {countries && countries.map((country) => (
-                <MenuItem value={country.id}>{country.name}</MenuItem>
+                <MenuItem key={country.id} value={country.id}>{country.name}</MenuItem>
               ))}
             </Select>
           </div>

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "app/store";
+import BooksService from "services/BooksService";
 
 export interface BooksIndexStore {
   filters: {
@@ -53,13 +54,12 @@ export const {
 } = booksIndexSlice.actions;
 
 export const loadBooks = (): AppThunk => (dispatch) => {
+  const service = new BooksService();
+  
   dispatch(loadBooksStart());
 
-  fetch('http://localhost:4300/books')
-    .then((response) => response.json())
-    .then((body) => {
-      dispatch(loadBooksSuccess(body))
-    });
+  service.getBooks()
+    .then((body) => dispatch(loadBooksSuccess(body)));
 }
 
 export const selectBooksIndex = (state: RootState) => state.booksIndex;

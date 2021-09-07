@@ -1,10 +1,11 @@
-import { Button, makeStyles, MenuItem, Select, TextField } from '@material-ui/core';
+import { Button, FormControl, InputLabel, makeStyles, MenuItem, Select, TextField } from '@material-ui/core';
 import { useAppSelector } from 'app/hooks';
 import AppModal from 'components/AppModal';
 import { loadCountries, selectCountries } from 'features/countries/countriesSlice';
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import BooksService from 'services/BooksService';
 
 const initialFormValues = {
   title: '',
@@ -26,16 +27,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 async function createBook(newBook: Book): Promise<Book> {
-  const response = await fetch('http://localhost:4300/books', {
-    method: 'POST',
-    body: JSON.stringify(newBook),
-    headers:  { 
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    }
-  });
-
-  return response.json();
+  const service = new BooksService();
+  
+  return await service.createBook(newBook);
 }
 
 export default function AddBook() {
@@ -90,17 +84,20 @@ export default function AddBook() {
             <TextField label="Author" onChange={handleChange('author')} />
           </div>
           <div className={classes.fieldGroup}>
-            <Select
-              labelId="select-customer-label"
-              value={form.countryId}
-              onChange={handleChange('countryId')}
-              className={classes.inputField}
-            >
-              <MenuItem value={-1}>-</MenuItem>
-              {countries && countries.map((country) => (
-                <MenuItem value={country.id}>{country.name}</MenuItem>
-              ))}
-            </Select>
+            <FormControl>
+              <InputLabel id="select-country-label">Country</InputLabel>
+              <Select
+                labelId="select-country-label"
+                value={form.countryId}
+                onChange={handleChange('countryId')}
+                className={classes.inputField}
+              >
+                <MenuItem value={-1}>-</MenuItem>
+                {countries && countries.map((country) => (
+                  <MenuItem key={country.id} value={country.id}>{country.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </div>
           <div className={classes.fieldGroup}>
             <TextField label="Language" onChange={handleChange('language')} />

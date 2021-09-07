@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "app/store";
+import BookService from "services/BooksService";
 
 export interface BookDetailsStore {
   details?: BookDetails
@@ -44,10 +45,11 @@ export const {
 } = bookDetailsSlice.actions
 
 export const loadBookDetails = (id: number): AppThunk => (dispatch) => {
+  const service = new BookService();
+  
   dispatch(loadBookDetailsStart());
 
-  fetch(`http://localhost:4300/books/${id}?_embed=borrows`)
-    .then((response) => response.json())
+  service.getBook(id)
     .then((body) => {
       console.log(body)
       dispatch(loadBookDetailsSuccess(body))

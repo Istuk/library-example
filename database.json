@@ -1,27 +1,22 @@
 {
   "borrows": [
     {
-      "bookId": 3,
-      "untilDate": "2021-09-20",
-      "id": 4
-    },
-    {
       "bookId": 4,
       "customerId": 3,
       "untilDate": "2021-09-20",
       "id": 5
     },
     {
-      "bookId": 20,
-      "customerId": 4,
-      "untilDate": "2021-09-21",
-      "id": 6
-    },
-    {
       "bookId": 18,
       "customerId": 4,
       "untilDate": "2021-09-21",
       "id": 7
+    },
+    {
+      "bookId": 3,
+      "customerId": 2,
+      "untilDate": "2021-09-21",
+      "id": 8
     }
   ],
   "customers": [
@@ -288,11 +283,11 @@
     },
     {
       "title": "Test Book",
-      "author": "Ready to ship",
+      "author": "Test Author",
       "countryId": 8,
       "language": "Spanish",
-      "pages": "312",
-      "year": "1996",
+      "pages": "234",
+      "year": "1234",
       "quantity": "5",
       "id": 20
     }
