@@ -5,15 +5,6 @@ import AppModal from 'components/AppModal';
 import { useAppDispatch } from 'app/hooks';
 import { loadCustomerDetails } from 'features/customerDetails/customerDetailsSlice';
 
-const initialFormValues = {
-  firstname: '',
-  lastname: '',
-  birthdate: '',
-  phone: ''
-}
-
-type FormFields = 'firstname' | 'lastname' | 'birthdate' | 'phone';
-
 const useStyles = makeStyles(() => ({
   fieldGroup: {
     marginBottom: '16px'
@@ -61,7 +52,7 @@ export default function EditCustomer(props: {customer: Customer}) {
     event.preventDefault();
   }
 
-  const handleChange = (field: FormFields) => (event: any) => {
+  const handleChange = (field: CustomerFormFields) => (event: any) => {
     setForm({...form, [field]: event.target.value});
   }
 
@@ -83,7 +74,7 @@ export default function EditCustomer(props: {customer: Customer}) {
             <TextField label="last Name" value={form.lastname} onChange={handleChange('lastname')} />
           </div>
           <div className={classes.fieldGroup}>
-            <TextField label="Date of birth" type="date" onChange={handleChange('birthdate')} defaultValue={form.birthdate} />
+            <TextField label="Date of birth" type="date" value={form.birthdate} onChange={handleChange('birthdate')} defaultValue={form.birthdate} />
           </div>
           <div className={classes.fieldGroup}>
             <TextField label="Phone Number" value={form.phone} onChange={handleChange('phone')} />

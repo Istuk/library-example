@@ -56,7 +56,7 @@ export default function BookDetails({id}: {id: number}) {
     dispatch(loadBookDetails(id));
     dispatch(loadCustomers());
     if (!countriesLoaded) dispatch(loadCountries());
-  }, [dispatch]);
+  }, [dispatch, id, countriesLoaded]);
 
   if (loading || customersLoading || countriesLoading || !details || !countries) return <span>Loading...</span>
 

@@ -20,6 +20,8 @@ interface Customer {
     phone: string
 }
 
+type CustomerFormFields = 'firstname' | 'lastname' | 'birthdate' | 'phone';
+
 interface CustomerDetails extends Customer {
     borrows: Borrow[]
 }

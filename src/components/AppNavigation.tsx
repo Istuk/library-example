@@ -1,7 +1,6 @@
 import React, {useCallback} from 'react';
-import { AppBar, Button, InputBase, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Button, Toolbar, Typography } from '@material-ui/core';
 import { alpha, makeStyles } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
 import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
@@ -43,7 +42,6 @@ export default function AppNavigation() {
   const classes = useStyles();
   const history = useHistory();
 
-  const handleDashboardClick = useCallback(() => history.push('/'), [history])
   const handleBooksClick = useCallback(() => history.push('/books'), [history])
   const handleCustomersClick = useCallback(() => history.push('/customers'), [history])
 

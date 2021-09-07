@@ -8,6 +8,10 @@ import React, { Fragment, useCallback, useState } from 'react';
 const useStyles = makeStyles({
   inputField: {
     width: '300px'
+  },
+  fieldGroup: {
+    display: 'block',
+    marginBottom: '16px'
   }
 });
 
@@ -53,7 +57,6 @@ export function BorrowBook({book, customers}: {book: BookDetails, customers: Cus
   }
 
   const handleSelect = (event: any) => {
-    console.log(event)
     setSelectedCustomer(event.target.value)
   }
 
@@ -70,7 +73,7 @@ export function BorrowBook({book, customers}: {book: BookDetails, customers: Cus
         onClose={handleClose}
       >
         <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-          <FormControl>
+          <FormControl className={classes.fieldGroup} >
             <InputLabel id="select-customer-label">Customer</InputLabel>
             <Select
               labelId="select-customer-label"
@@ -84,7 +87,7 @@ export function BorrowBook({book, customers}: {book: BookDetails, customers: Cus
               ))}
             </Select>
           </FormControl>
-          <FormControl>
+          <FormControl className={classes.fieldGroup} >
             <TextField type="date" label="Until Date" value={untilDate} onChange={handleDateChange} />
           </FormControl>
           <Button type="submit">Borrow</Button>

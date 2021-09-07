@@ -1,6 +1,5 @@
-import { HowToReg } from "@material-ui/icons";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AppThunk, RootState, store } from "app/store";
+import { AppThunk, RootState } from "app/store";
 
 export interface BooksIndexStore {
   customers: Customer[]

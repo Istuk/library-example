@@ -11,8 +11,6 @@ const initialFormValues = {
   phone: ''
 }
 
-type FormFields = 'firstname' | 'lastname' | 'birthdate' | 'phone';
-
 const useStyles = makeStyles(() => ({
   fieldGroup: {
     marginBottom: '16px'
@@ -55,7 +53,7 @@ export default function AddCustomer() {
     event.preventDefault();
   }
 
-  const handleChange = (field: FormFields) => (event: any) => {
+  const handleChange = (field: CustomerFormFields) => (event: any) => {
     setForm({...form, [field]: event.target.value});
   }
 

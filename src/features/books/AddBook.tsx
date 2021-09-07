@@ -2,7 +2,6 @@ import { Button, makeStyles, MenuItem, Select, TextField } from '@material-ui/co
 import { useAppSelector } from 'app/hooks';
 import AppModal from 'components/AppModal';
 import { loadCountries, selectCountries } from 'features/countries/countriesSlice';
-import { loadCustomers } from 'features/customers/customersIndexSlice';
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -17,14 +16,12 @@ const initialFormValues = {
   quantity: 0
 }
 
-type FormFields = 'title' | 'author' | 'countryId' | 'language' | 'pages' | 'year' | 'quantity';
-
 const useStyles = makeStyles(() => ({
   fieldGroup: {
     marginBottom: '16px'
   },
   inputField: {
-    width: '300px'
+    width: '180px'
   }
 }));
 
@@ -73,7 +70,7 @@ export default function AddBook() {
     event.preventDefault();
   }
 
-  const handleChange = (field: FormFields) => (event: any) => {
+  const handleChange = (field: BookFormFields) => (event: any) => {
     setForm({...form, [field]: event.target.value});
   }
 
@@ -81,7 +78,7 @@ export default function AddBook() {
     <Fragment>
       <Button onClick={handleOpenModal}>Add Book</Button>
       <AppModal
-        title="Create Customer"
+        title="Create Book"
         open={isOpen}
         onClose={handleCloseModal}
       >

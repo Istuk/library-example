@@ -27,12 +27,6 @@ const useStyles = makeStyles({
   },
 });
 
-function normalizeYear(year: number): string {
-  if (year < 0) return `BC ${Math.abs(year)}`;
-
-  return `${year}`
-}
-
 export default function BookDetails({id}: {id: number}) {
   const {
     details,
@@ -49,7 +43,7 @@ export default function BookDetails({id}: {id: number}) {
   useEffect(() => {
     dispatch(loadCustomerDetails(id));
     dispatch(loadBooks());
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   if (loading || booksLoading || !details) return <span>Loading...</span>
 

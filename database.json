@@ -16,6 +16,12 @@
       "customerId": 4,
       "untilDate": "2021-09-21",
       "id": 6
+    },
+    {
+      "bookId": 18,
+      "customerId": 4,
+      "untilDate": "2021-09-21",
+      "id": 7
     }
   ],
   "customers": [
@@ -34,11 +40,11 @@
       "phone": ""
     },
     {
-      "id": 3,
       "firstname": "Jair",
       "lastname": "Dudley",
-      "birthdate": "",
-      "phone": ""
+      "birthdate": "2021-09-06",
+      "phone": "0991231234",
+      "id": 3
     },
     {
       "id": 4,
