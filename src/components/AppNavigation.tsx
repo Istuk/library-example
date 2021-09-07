@@ -54,7 +54,6 @@ export default function AppNavigation() {
           Library Admin
         </Typography>
         <div className={classes.grow} />
-        <Button color="inherit" onClick={handleDashboardClick}>Dashboard</Button>
         <Button color="inherit" onClick={handleBooksClick}>Books</Button>
         <Button color="inherit" onClick={handleCustomersClick}>Customers</Button>
       </Toolbar>

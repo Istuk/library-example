@@ -107,7 +107,7 @@ export default function BookDetails({id}: {id: number}) {
             Actions
           </Typography>
           <BorrowBook book={details} customers={customers} />
-          <Button>Add Copies</Button>
+          <Button>Edit</Button>
         </Card>
       </div>
       <Typography variant="h4">

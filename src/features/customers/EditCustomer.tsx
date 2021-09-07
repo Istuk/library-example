@@ -1,8 +1,9 @@
 import { Button, TextField } from '@material-ui/core';
 import React, { Fragment, useCallback, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from 'react-router';
 import AppModal from 'components/AppModal';
+import { useAppDispatch } from 'app/hooks';
+import { loadCustomerDetails } from 'features/customerDetails/customerDetailsSlice';
 
 const initialFormValues = {
   firstname: '',
@@ -19,10 +20,15 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-async function createCustomer(newCustomer: Customer): Promise<Customer> {
-  const response = await fetch('http://localhost:4300/customers', {
-    method: 'POST',
-    body: JSON.stringify(newCustomer),
+async function editCustomer(customer: Customer): Promise<Customer> {
+  const response = await fetch(`http://localhost:4300/customers/${customer.id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      firstname: customer.firstname,
+      lastname: customer.lastname,
+      birthdate: customer.birthdate,
+      phone: customer.phone
+    }),
     headers:  { 
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -32,10 +38,10 @@ async function createCustomer(newCustomer: Customer): Promise<Customer> {
   return response.json();
 }
 
-export default function AddCustomer() {
+export default function EditCustomer(props: {customer: Customer}) {
   const [isOpen, setIsOpen] = useState(false);
-  const [form, setForm] = useState(initialFormValues);
-  const history = useHistory();
+  const [form, setForm] = useState(props.customer);
+  const dispatch = useAppDispatch();
   const classes = useStyles();
 
   const handleOpenModal = useCallback(() => {
@@ -47,9 +53,9 @@ export default function AddCustomer() {
   }, [setIsOpen]);
 
   const handleSubmit = (event: any) => {
-    createCustomer(form)
-      .then((customer) => {
-        history.push(`/customer/${customer.id}`)
+    editCustomer(form)
+      .then(() => {
+        dispatch(loadCustomerDetails(props.customer.id as number));
       })
 
     event.preventDefault();
@@ -59,9 +65,11 @@ export default function AddCustomer() {
     setForm({...form, [field]: event.target.value});
   }
 
+  console.log(form)
+
   return (
     <Fragment>
-      <Button onClick={handleOpenModal}>Add Customer</Button>
+      <Button onClick={handleOpenModal}>Edit</Button>
       <AppModal
         title="Create Customer"
         open={isOpen}
@@ -69,18 +77,18 @@ export default function AddCustomer() {
       >
         <form noValidate autoComplete="off" onSubmit={handleSubmit}>
           <div className={classes.fieldGroup}>
-            <TextField label="First Name" onChange={handleChange('firstname')} />
+            <TextField label="First Name" value={form.firstname} onChange={handleChange('firstname')} />
           </div>
           <div className={classes.fieldGroup}>
-            <TextField label="last Name" onChange={handleChange('lastname')} />
+            <TextField label="last Name" value={form.lastname} onChange={handleChange('lastname')} />
           </div>
           <div className={classes.fieldGroup}>
-            <TextField label="Date of birth" type="date" onChange={handleChange('birthdate')} defaultValue="1990-01-01" />
+            <TextField label="Date of birth" type="date" onChange={handleChange('birthdate')} defaultValue={form.birthdate} />
           </div>
           <div className={classes.fieldGroup}>
-            <TextField label="Phone Number" onChange={handleChange('phone')} />
+            <TextField label="Phone Number" value={form.phone} onChange={handleChange('phone')} />
           </div>
-          <Button type="submit">Create</Button>
+          <Button type="submit">Save</Button>
         </form>
       </AppModal>
     </Fragment>

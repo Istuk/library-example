@@ -1,7 +1,6 @@
 import * as React from 'react';
 import AppNavigation from 'components/AppNavigation';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import DashboardView from 'views/DashboardView';
 import BooksView from 'views/BooksView';
 import BookDetailsView from 'views/BookDetailsView';
 import CustomersView from 'views/CustomersView';
@@ -24,7 +23,7 @@ function App() {
           <AppNavigation />
         </div>
         <Switch>
-          <Route path="/" exact ><DashboardView /></Route>
+          <Route path="/" exact ><BooksView /></Route>
           <Route path="/books" exact ><BooksView /></Route>
           <Route path="/book/:id" exact ><BookDetailsView /></Route>
           <Route path="/customers" exact ><CustomersView /></Route>

@@ -5,6 +5,7 @@ import { loadCustomerDetails, selectCustomerDetails } from './customerDetailsSli
 import { makeStyles } from '@material-ui/styles';
 import { serializeBorrowsForCustomers } from 'helpers/serializers';
 import { loadBooks, selectBooksIndex } from 'features/books/booksIndexSlice';
+import EditCustomer from 'features/customers/EditCustomer';
 
 const useStyles = makeStyles({
   root: {
@@ -85,7 +86,7 @@ export default function BookDetails({id}: {id: number}) {
           <Typography variant="h6">
             Actions
           </Typography>
-          <Button>Edit</Button>
+          <EditCustomer customer={details} />
         </Card>
       </div>
       <Typography variant="h4">

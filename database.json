@@ -10,6 +10,12 @@
       "customerId": 3,
       "untilDate": "2021-09-20",
       "id": 5
+    },
+    {
+      "bookId": 20,
+      "customerId": 4,
+      "untilDate": "2021-09-21",
+      "id": 6
     }
   ],
   "customers": [
@@ -42,11 +48,19 @@
       "phone": ""
     },
     {
-      "id": 5,
       "firstname": "Laurel",
       "lastname": "Chang",
-      "birthdate": "",
-      "phone": ""
+      "birthdate": "2021-08-18",
+      "phone": "123123123",
+      "id": 5
+    },
+    {
+      "firstname": "Josko",
+      "lastname": "Bosko",
+      "birthdate": "2021-09-09",
+      "phone": "123123123",
+      "id": 6,
+      "borrows": []
     }
   ],
   "countries": [
@@ -273,6 +287,16 @@
       "title": "Jacques the Fatalist",
       "year": 1796,
       "quantity": 2
+    },
+    {
+      "title": "Test Book",
+      "author": "Test Author",
+      "countryId": 8,
+      "language": "Spanish",
+      "pages": "312",
+      "year": "1996",
+      "quantity": "5",
+      "id": 20
     }
   ]
 }
