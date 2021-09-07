@@ -1,5 +1,5 @@
 interface Borrow {
-    id: nubmer
+    id?: nubmer
     customerId: number
     bookId: number
     untilDate: string

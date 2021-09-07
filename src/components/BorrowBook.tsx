@@ -4,6 +4,7 @@ import { useAppDispatch } from 'app/hooks';
 import AppModal from 'components/AppModal';
 import { loadBookDetails } from 'features/bookDetails/bookDetailsSlice';
 import React, { Fragment, useCallback, useState } from 'react';
+import BorrowsService from 'services/BorrowsService';
 
 const useStyles = makeStyles({
   inputField: {
@@ -21,6 +22,7 @@ function initialDate() {
 
 export function BorrowBook({book, customers}: {book: BookDetails, customers: Customer[]}) {
   const [isOpen, setIsOpen] = useState(false);
+  const [customerNotValid, setCustomerNotValid] = useState(false)
   const [selectedCustomer, setSelectedCustomer] = useState<number | undefined>(undefined);
   const [untilDate, setUntilDate] = useState(initialDate);
   const dispatch = useAppDispatch();
@@ -38,22 +40,24 @@ export function BorrowBook({book, customers}: {book: BookDetails, customers: Cus
   }, [setIsOpen]);
 
   const handleSubmit = (event: any) => {
-    fetch('http://localhost:4300/borrows', {
-      method: 'POST',
-      body: JSON.stringify({
-        bookId: book.id,
-        customerId: selectedCustomer,
-        untilDate
-      }),
-      headers:  { 
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }).then(() => {
-      dispatch(loadBookDetails(book.id as number));
-    })
-    
     event.preventDefault();
+    const service = new BorrowsService();
+
+    if (!book.id) throw new Error('book id is required to borrow a book');
+
+    if (!selectedCustomer) {
+      setCustomerNotValid(true);
+      return;
+    }
+    
+    service.createBorrow({
+      bookId: book.id,
+      customerId: selectedCustomer,
+      untilDate
+    })
+      .then(() => {
+        dispatch(loadBookDetails(book.id as number));
+      })
   }
 
   const handleSelect = (event: any) => {
@@ -80,6 +84,7 @@ export function BorrowBook({book, customers}: {book: BookDetails, customers: Cus
               value={selectedCustomer}
               onChange={handleSelect}
               className={classes.inputField}
+              error={customerNotValid}
             >
               <MenuItem value={undefined}>-</MenuItem>
               {customers.map((customer) => (

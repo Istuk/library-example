@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router';
 import AppModal from 'components/AppModal';
 import CustomersService from 'services/CustomersService';
+import { noEmptyFields } from 'helpers/validation';
 
 const initialFormValues = {
   firstname: '',
@@ -27,11 +28,13 @@ async function createCustomer(newCustomer: Customer): Promise<Customer> {
 export default function AddCustomer() {
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState(initialFormValues);
+  const [submitted, setSubmitted] = useState(false)
   const history = useHistory();
   const classes = useStyles();
 
   const handleOpenModal = useCallback(() => {
     setIsOpen(true);
+    setSubmitted(false);
   }, [setIsOpen]);
 
   const handleCloseModal = useCallback(() => {
@@ -39,12 +42,15 @@ export default function AddCustomer() {
   }, [setIsOpen]);
 
   const handleSubmit = (event: any) => {
+    event.preventDefault();
+    setSubmitted(true)
+
+    if (!noEmptyFields(form)) return;
+
     createCustomer(form)
       .then((customer) => {
         history.push(`/customer/${customer.id}`)
-      })
-
-    event.preventDefault();
+      });
   }
 
   const handleChange = (field: CustomerFormFields) => (event: any) => {
@@ -61,16 +67,34 @@ export default function AddCustomer() {
       >
         <form noValidate autoComplete="off" onSubmit={handleSubmit}>
           <div className={classes.fieldGroup}>
-            <TextField label="First Name" onChange={handleChange('firstname')} />
+            <TextField
+              label="First Name"
+              onChange={handleChange('firstname')}
+              error={submitted && form.firstname === ''}
+            />
           </div>
           <div className={classes.fieldGroup}>
-            <TextField label="last Name" onChange={handleChange('lastname')} />
+            <TextField
+              label="last Name"
+              onChange={handleChange('lastname')}
+              error={submitted && form.lastname === ''}
+            />
           </div>
           <div className={classes.fieldGroup}>
-            <TextField label="Date of birth" type="date" onChange={handleChange('birthdate')} defaultValue="1990-01-01" />
+            <TextField
+              label="Date of birth"
+              type="date"
+              onChange={handleChange('birthdate')}
+              defaultValue="1990-01-01"
+              error={submitted && form.birthdate === ''}
+            />
           </div>
           <div className={classes.fieldGroup}>
-            <TextField label="Phone Number" onChange={handleChange('phone')} />
+            <TextField
+              label="Phone Number"
+              onChange={handleChange('phone')}
+              error={submitted && form.phone === ''}
+            />
           </div>
           <Button type="submit">Create</Button>
         </form>

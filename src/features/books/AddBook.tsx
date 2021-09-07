@@ -2,6 +2,7 @@ import { Button, FormControl, InputLabel, makeStyles, MenuItem, Select, TextFiel
 import { useAppSelector } from 'app/hooks';
 import AppModal from 'components/AppModal';
 import { loadCountries, selectCountries } from 'features/countries/countriesSlice';
+import { noEmptyFields } from 'helpers/validation';
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -10,7 +11,7 @@ import BooksService from 'services/BooksService';
 const initialFormValues = {
   title: '',
   author: '',
-  countryId: -1,
+  countryId: 0,
   language: '',
   pages: 0,
   year: 2020,
@@ -35,6 +36,7 @@ async function createBook(newBook: Book): Promise<Book> {
 export default function AddBook() {
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState(initialFormValues);
+  const [submitted, setSubmitted] = useState(false);
   const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -49,6 +51,7 @@ export default function AddBook() {
 
   const handleOpenModal = useCallback(() => {
     setIsOpen(true);
+    setSubmitted(false);
   }, [setIsOpen]);
 
   const handleCloseModal = useCallback(() => {
@@ -56,12 +59,15 @@ export default function AddBook() {
   }, [setIsOpen]);
 
   const handleSubmit = (event: any) => {
+    event.preventDefault();
+    setSubmitted(true);
+
+    if (!noEmptyFields(form)) return
+
     createBook(form)
       .then((book) => {
         history.push(`/book/${book.id}`)
-      })
-
-    event.preventDefault();
+      });
   }
 
   const handleChange = (field: BookFormFields) => (event: any) => {
@@ -78,10 +84,20 @@ export default function AddBook() {
       >
         <form noValidate autoComplete="off" onSubmit={handleSubmit}>
           <div className={classes.fieldGroup}>
-            <TextField label="Title" onChange={handleChange('title')} />
+            <TextField
+              label="Title"
+              onChange={handleChange('title')}
+              value={form.title}
+              error={submitted && form.title === ''}
+            />
           </div>
           <div className={classes.fieldGroup}>
-            <TextField label="Author" onChange={handleChange('author')} />
+            <TextField
+              label="Author"
+              onChange={handleChange('author')}
+              value={form.author}
+              error={submitted && form.author === ''}
+            />
           </div>
           <div className={classes.fieldGroup}>
             <FormControl>
@@ -91,8 +107,9 @@ export default function AddBook() {
                 value={form.countryId}
                 onChange={handleChange('countryId')}
                 className={classes.inputField}
+                error={submitted && form.countryId === 0}
               >
-                <MenuItem value={-1}>-</MenuItem>
+                <MenuItem value={0}>-</MenuItem>
                 {countries && countries.map((country) => (
                   <MenuItem key={country.id} value={country.id}>{country.name}</MenuItem>
                 ))}
@@ -100,16 +117,39 @@ export default function AddBook() {
             </FormControl>
           </div>
           <div className={classes.fieldGroup}>
-            <TextField label="Language" onChange={handleChange('language')} />
+            <TextField
+              label="Language"
+              onChange={handleChange('language')}
+              value={form.language}
+              error={submitted && form.language === ''}
+            />
           </div>
           <div className={classes.fieldGroup}>
-            <TextField type="number" label="Pages" onChange={handleChange('pages')} />
+            <TextField
+              type="number"
+              label="Pages"
+              onChange={handleChange('pages')}
+              value={form.pages}
+              error={submitted && form.pages === 0}
+            />
           </div>
           <div className={classes.fieldGroup}>
-            <TextField type="number" label="Year" onChange={handleChange('year')} />
+            <TextField
+              type="number"
+              label="Year"
+              onChange={handleChange('year')}
+              value={form.year}
+              error={submitted && form.year === 0}
+            />
           </div>
           <div className={classes.fieldGroup}>
-            <TextField type="number" label="Quantity" onChange={handleChange('quantity')} />
+            <TextField
+              type="number"
+              label="Quantity"
+              onChange={handleChange('quantity')}
+              value={form.quantity}
+              error={submitted && form.quantity === 0}
+            />
           </div>
           <Button type="submit">Create</Button>
         </form>

@@ -9,6 +9,7 @@ import EditCustomer from 'features/customers/EditCustomer';
 import CustomersService from 'services/CustomersService';
 import DeleteButton from 'components/DeleteButton';
 import { useHistory } from 'react-router';
+import BorrowsService from 'services/BorrowsService';
 
 const useStyles = makeStyles({
   root: {
@@ -59,9 +60,9 @@ export default function BookDetails({id}: {id: number}) {
   if (loading || booksLoading || !details || !details.id) return <span>Loading...</span>
 
   const handleReturn = (id: number) => () => {
-    fetch(`http://localhost:4300/borrows/${id}`, {
-      method: 'DELETE'
-    })
+    const service = new BorrowsService();
+
+    service.deleteEntity(id)
       .then(() => dispatch(loadCustomerDetails(details.id as number)));
   }
   
