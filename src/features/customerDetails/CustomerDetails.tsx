@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Card, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { loadCustomerDetails, selectCustomerDetails } from './customerDetailsSlice';
@@ -6,6 +6,9 @@ import { makeStyles } from '@material-ui/styles';
 import { serializeBorrowsForCustomers } from 'helpers/serializers';
 import { loadBooks, selectBooksIndex } from 'features/books/booksIndexSlice';
 import EditCustomer from 'features/customers/EditCustomer';
+import CustomersService from 'services/CustomersService';
+import DeleteButton from 'components/DeleteButton';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles({
   root: {
@@ -37,16 +40,23 @@ export default function BookDetails({id}: {id: number}) {
     loading: booksLoading
   } = useAppSelector(selectBooksIndex);
   const dispatch = useAppDispatch();
+  const history = useHistory();
   const [bookId] = useState(id);
 
   const classes = useStyles();
+
+  const [service] = useState(new CustomersService());
 
   useEffect(() => {
     dispatch(loadCustomerDetails(bookId));
     dispatch(loadBooks());
   }, [dispatch, bookId]);
 
-  if (loading || booksLoading || !details) return <span>Loading...</span>
+  const handleDeleteSuccess = useCallback(() => {
+    history.push('/customers');
+  }, [history]);
+
+  if (loading || booksLoading || !details || !details.id) return <span>Loading...</span>
 
   const handleReturn = (id: number) => () => {
     fetch(`http://localhost:4300/borrows/${id}`, {
@@ -82,6 +92,11 @@ export default function BookDetails({id}: {id: number}) {
             Actions
           </Typography>
           <EditCustomer customer={details} />
+          <DeleteButton
+            service={service}
+            id={bookId}
+            onSuccess={handleDeleteSuccess}
+          />
         </Card>
       </div>
       <Typography variant="h4">

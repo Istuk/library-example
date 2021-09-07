@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "app/store";
+import CustomersService from "services/CustomersService";
 
 export interface BooksIndexStore {
   customers: Customer[]
@@ -59,10 +60,11 @@ export const {
 } = customersIndexSlice.actions;
 
 export const loadCustomers = (): AppThunk => (dispatch) => {
+  const service = new CustomersService();
+  
   dispatch(loadCustomersStart());
 
-  fetch('http://localhost:4300/customers')
-    .then((response) => response.json())
+  service.getCustomers()
     .then((body) => {
       dispatch(loadCustomersSuccess(body))
     });

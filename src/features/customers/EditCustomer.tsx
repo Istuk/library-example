@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppModal from 'components/AppModal';
 import { useAppDispatch } from 'app/hooks';
 import { loadCustomerDetails } from 'features/customerDetails/customerDetailsSlice';
+import CustomersService from 'services/CustomersService';
 
 const useStyles = makeStyles(() => ({
   fieldGroup: {
@@ -12,21 +13,11 @@ const useStyles = makeStyles(() => ({
 }));
 
 async function editCustomer(customer: Customer): Promise<Customer> {
-  const response = await fetch(`http://localhost:4300/customers/${customer.id}`, {
-    method: 'PUT',
-    body: JSON.stringify({
-      firstname: customer.firstname,
-      lastname: customer.lastname,
-      birthdate: customer.birthdate,
-      phone: customer.phone
-    }),
-    headers:  { 
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    }
-  });
+  const service = new CustomersService();
 
-  return response.json();
+  if (!customer.id) throw new Error('customer must contain id to update');
+
+  return await service.updateCustomer(customer.id, customer);
 }
 
 export default function EditCustomer(props: {customer: Customer}) {

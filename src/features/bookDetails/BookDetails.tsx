@@ -69,7 +69,7 @@ export default function BookDetails({id}: {id: number}) {
     history.push('/books');
   }, [history]);
 
-  if (loading || customersLoading || countriesLoading || !details || !countries) return <span>Loading...</span>
+  if (loading || customersLoading || countriesLoading || !details || !countries || !details.id) return <span>Loading...</span>
 
   const handleReturn = (id: number) => () => {
     fetch(`http://localhost:4300/borrows/${id}`, {
@@ -79,8 +79,6 @@ export default function BookDetails({id}: {id: number}) {
   }
 
   const availableCopies = details.quantity - details.borrows.length;
-
-  if (!details.id) return <Card className={classes.root}></Card>
   
   return (
     <Card className={classes.root}>

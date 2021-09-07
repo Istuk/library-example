@@ -3,6 +3,7 @@ import React, { Fragment, useCallback, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router';
 import AppModal from 'components/AppModal';
+import CustomersService from 'services/CustomersService';
 
 const initialFormValues = {
   firstname: '',
@@ -18,16 +19,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 async function createCustomer(newCustomer: Customer): Promise<Customer> {
-  const response = await fetch('http://localhost:4300/customers', {
-    method: 'POST',
-    body: JSON.stringify(newCustomer),
-    headers:  { 
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    }
-  });
+  const service = new CustomersService();
 
-  return response.json();
+  return await service.createCustomer(newCustomer);
 }
 
 export default function AddCustomer() {
